@@ -1,0 +1,106 @@
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+#include <string>
+
+using namespace std;
+
+enum MenuOption {
+  GREETING = 1,
+    WEATHER,
+      GAME,
+        EXIT
+};
+ 
+  void printMenu() {
+cout<<"********************MENU************************"<<endl;
+  cout<<"Personal Concierge App : Choose a Service"<<endl;
+   cout<<"1.Display Personal Greeting"<<endl;
+    cout<<"2.Display Today's Weather Forecast"<<endl;
+     cout<<"3.Play a Guessing Game"<<endl;
+      cout<<"4.Exist"<<endl;
+       cout<<"**********************************************"<<endl;
+}
+int main () {
+
+  string name;
+   int choice;
+     cout<<"Please enter your full name: "<<endl;
+      getline(cin,name);
+     printMenu(); 
+   cout<<"Enter your choice (1-4): ";
+      cin>>choice;
+   while (choice <GREETING || choice > EXIT){
+cout<<"Invalid choice. Please enter a number between 1 and 4: ";
+  cin>>choice;
+}
+time_t rawtime;
+     string time_str;
+rawtime = time(&rawtime);
+time_str =ctime(&rawtime);
+string hourstr = time_str.substr(11,2);
+       int hour;
+       hour = stoi(hourstr);
+ switch (choice){
+  case GREETING:
+ cout<<time_str;
+        if (hour >= 5 && hour < 12) {
+           cout << "Good morning, " << name << "!" <<"I hope your having a nice day"<< endl;
+            } 
+     else if (hour >= 12 && hour < 18) {
+      cout << "Good afternoon, " << name << "!" <<"I hope your having a nice day"<< endl;
+     }
+      else {
+    cout<<"Good evening, "<<name<<"!"<<"I hope your having a nice day"<<endl;
+} 
+break;
+case WEATHER:
+srand(time(NULL));
+int weather;
+weather = rand()%96+10;
+int r;
+r = rand()%2;
+if(r==0){
+cout<<"Todays forecast high of "<<weather<<" and "<<r<<"."<<endl;
+}
+else{
+cout<<"Todays forecaset high of "<<weather<<" and "<<r<<"."<<endl;
+}
+break;
+case GAME:
+srand(time(NULL));
+int secret;
+secret = rand () %10 + 1;
+int guess;
+int attempt;
+attempt =0;
+cout<<"You have 3 chances to guess my number between 1 and 10!"<<endl;
+while (attempt<3){
+attempt++;
+cout<<"Guess# ";
+cin>>guess;
+ if (guess==secret){
+cout<<"Correct in "<<attempt<<" guesses! Nice job!"<<endl;
+break;
+}
+else if (guess <secret) {
+cout<<"Your guess "<<guess<<"is too low! Guess a higher number!"<<endl;
+}
+else if (guess <secret) {
+cout<<"Your guess "<<guess<<"is too high! Guess a lower number!"<<endl;
+}
+}
+ if (attempt == 3 && guess!=secret){
+cout<<"Sorry, my number was "<<secret<<"!"<<endl;
+}
+break;
+case EXIT:
+cout<<"Thank you for using the Personal Concierge App."<<endl;
+break;
+
+default:
+cout<<"Invalid selection ("<<choice<<"). Enter option 1-4: ";
+cin>>choice;
+}
+return 0;
+}
